@@ -1,0 +1,7 @@
+{
+  "name": "Mingalar English Tutor",
+  "description": "A comprehensive English learning platform for Burmese speakers, featuring real-time AI speaking practice, vocabulary building, and listening exercises.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
