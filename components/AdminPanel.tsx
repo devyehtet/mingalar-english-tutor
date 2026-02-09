@@ -329,6 +329,7 @@ const AdConfigSection: React.FC<AdConfigSectionProps> = ({ title, data, onChange
     )}
     </div>
   </div>
-);
+  );
+};
 
 export default AdminPanel;
