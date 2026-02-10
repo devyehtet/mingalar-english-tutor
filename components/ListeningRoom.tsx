@@ -97,6 +97,11 @@ const ListeningRoom: React.FC<ListeningRoomProps> = ({ lang }) => {
   const speechSupported = isSpeechSupported();
 
   useEffect(() => {
+    if (!speechSupported) return;
+    window.speechSynthesis.getVoices();
+  }, [speechSupported]);
+
+  useEffect(() => {
     localStorage.setItem('practice_mode', mode);
   }, [mode]);
 
@@ -122,7 +127,23 @@ const ListeningRoom: React.FC<ListeningRoomProps> = ({ lang }) => {
   const playStoryAudio = async () => {
     if (!lesson || !speechSupported) return;
     setIsPlaying(true);
-    const utterance = speakText(expandedStory, { rate: playbackRate, onEnd: () => setIsPlaying(false) });
+    const utterance = speakText(expandedStory, {
+      rate: playbackRate,
+      pitch: 0.9,
+      lang: 'en-US',
+      voiceGender: 'male',
+      preferredVoiceNames: [
+        'Alex',
+        'Daniel',
+        'Fred',
+        'Tom',
+        'Google US English',
+        'Microsoft David',
+        'Microsoft Mark',
+        'Microsoft Guy'
+      ],
+      onEnd: () => setIsPlaying(false)
+    });
     if (!utterance) setIsPlaying(false);
   };
 
