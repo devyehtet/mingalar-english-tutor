@@ -1,5 +1,20 @@
 import { PracticeMode, SpeakingPrompt } from '../types';
 
+const TOTAL_DAYS = 90;
+
+const expandPromptSets = (base: SpeakingPrompt[][], totalDays: number): SpeakingPrompt[][] => {
+  if (base.length === 0) return [];
+  return Array.from({ length: totalDays }, (_, dayIdx) => {
+    const source = base[dayIdx % base.length];
+    const dayNumber = dayIdx + 1;
+    return source.map((prompt) => ({
+      ...prompt,
+      id: `${prompt.id}-day${dayNumber}`,
+      targetKeywords: [...prompt.targetKeywords]
+    }));
+  });
+};
+
 const daily: SpeakingPrompt[][] = [
   [
     {
@@ -1244,9 +1259,14 @@ const partySchool: SpeakingPrompt[][] = [
   ]
 ];
 
+const dailyExpanded = expandPromptSets(daily, TOTAL_DAYS);
+const slangExpanded = expandPromptSets(slang, TOTAL_DAYS);
+const businessExpanded = expandPromptSets(business, TOTAL_DAYS);
+const partySchoolExpanded = expandPromptSets(partySchool, TOTAL_DAYS);
+
 export const speakingPromptsByMode: Record<PracticeMode, SpeakingPrompt[][]> = {
-  daily,
-  slang,
-  business,
-  party_school: partySchool
+  daily: dailyExpanded,
+  slang: slangExpanded,
+  business: businessExpanded,
+  party_school: partySchoolExpanded
 };

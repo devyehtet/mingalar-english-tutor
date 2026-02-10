@@ -1,5 +1,14 @@
 import { DailyVocabSet, PracticeMode } from '../types';
 
+const TOTAL_DAYS = 90;
+
+const expandVocabSets = (base: DailyVocabSet[], totalDays: number): DailyVocabSet[] => {
+  if (base.length === 0) return [];
+  return Array.from({ length: totalDays }, (_, idx) =>
+    base[idx % base.length].map((entry) => ({ ...entry }))
+  );
+};
+
 const daily: DailyVocabSet[] = [
   [
     {
@@ -1973,9 +1982,14 @@ const partySchool: DailyVocabSet[] = [
   ]
 ];
 
+const dailyExpanded = expandVocabSets(daily, TOTAL_DAYS);
+const slangExpanded = expandVocabSets(slang, TOTAL_DAYS);
+const businessExpanded = expandVocabSets(business, TOTAL_DAYS);
+const partySchoolExpanded = expandVocabSets(partySchool, TOTAL_DAYS);
+
 export const vocabDailyByMode: Record<PracticeMode, DailyVocabSet[]> = {
-  daily,
-  slang,
-  business,
-  party_school: partySchool
+  daily: dailyExpanded,
+  slang: slangExpanded,
+  business: businessExpanded,
+  party_school: partySchoolExpanded
 };

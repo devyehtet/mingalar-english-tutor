@@ -1,6 +1,13 @@
 import { GrammarLesson } from '../types';
 
-export const grammarLessons: GrammarLesson[] = [
+const TOTAL_DAYS = 90;
+
+const expandLessons = (base: GrammarLesson[], totalDays: number): GrammarLesson[] => {
+  if (base.length === 0) return [];
+  return Array.from({ length: totalDays }, (_, idx) => base[idx % base.length]);
+};
+
+const baseGrammarLessons: GrammarLesson[] = [
   {
     topic: 'Articles (a / an / the)',
     explanation_en: 'Use a/an for one thing, and the for a specific thing.',
@@ -394,3 +401,5 @@ export const grammarLessons: GrammarLesson[] = [
     ]
   }
 ];
+
+export const grammarLessons = expandLessons(baseGrammarLessons, TOTAL_DAYS);

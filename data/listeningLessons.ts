@@ -1,5 +1,19 @@
 import { ListeningLesson, PracticeMode } from '../types';
 
+const TOTAL_DAYS = 90;
+
+const expandLessons = (base: ListeningLesson[], totalDays: number): ListeningLesson[] => {
+  if (base.length === 0) return [];
+  return Array.from({ length: totalDays }, (_, idx) => {
+    const lesson = base[idx % base.length];
+    return {
+      ...lesson,
+      vocabulary: lesson.vocabulary.map((item) => ({ ...item })),
+      questions: lesson.questions.map((item) => ({ ...item }))
+    };
+  });
+};
+
 const daily: ListeningLesson[] = [
   {
     title: 'Hello, I am Aye',
@@ -796,11 +810,16 @@ const partySchool: ListeningLesson[] = [
   }
 ];
 
+const dailyExpanded = expandLessons(daily, TOTAL_DAYS);
+const slangExpanded = expandLessons(slang, TOTAL_DAYS);
+const businessExpanded = expandLessons(business, TOTAL_DAYS);
+const partySchoolExpanded = expandLessons(partySchool, TOTAL_DAYS);
+
 export const listeningLessonsByMode: Record<PracticeMode, ListeningLesson[]> = {
-  daily,
-  slang,
-  business,
-  party_school: partySchool
+  daily: dailyExpanded,
+  slang: slangExpanded,
+  business: businessExpanded,
+  party_school: partySchoolExpanded
 };
 
 export const listeningLessons = listeningLessonsByMode.daily;
